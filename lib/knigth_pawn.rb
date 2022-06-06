@@ -9,14 +9,14 @@ end
 p count
 
 class KnightPawn
-  attr_accessor :v_moves, :h_moves
+  attr_accessor :y_moves, :x_moves
 
   def initialize
-    @v_moves = {
+    @y_moves = {
       forward: 2,
       back: -2
     }
-    @h_moves = {
+    @x_moves = {
       left: -1,
       right: 1
     }
@@ -27,20 +27,26 @@ class KnightPawn
   end
 
   # Currently finds all possible moves from one position
-  # Does not take out of board into consideration
   def possible_moves(_board)
-    origin = [4, 4]
-    valid_moves = []
-    v_moves.each_key do |v|
-      h_moves.each_key do |h|
-        p valid_moves << [origin [0] + h_moves[h], origin[1] + v_moves[v]]
+    origin = [4, 0]
+    valid_movesXY = []
+    y_moves.each_key do |y|
+      x_moves.each_key do |x|
+        next if origin [0] + x_moves[x] > 7 || origin [0] + x_moves[x] < 0
+        next if origin[1] + y_moves[y] > 7 || origin[1] + y_moves[y] < 0
+
+        valid_movesXY << [origin [0] + x_moves[x], origin[1] + y_moves[y]]
       end
     end
-    v_moves.each_key do |v|
-      h_moves.each_key do |h|
-        p valid_moves << [origin [0] + v_moves[v], origin[1] + h_moves[h]]
+    y_moves.each_key do |y|
+      x_moves.each_key do |x|
+        next if origin [0] + y_moves[y] > 7 || origin [0] + y_moves[y] < 0
+        next if origin[1] + x_moves[x] > 7 || origin[1] + x_moves[x] < 0
+
+        valid_movesXY << [origin [0] + y_moves[y], origin[1] + x_moves[x]]
       end
     end
+    p valid_movesXY
   end
 end
 
